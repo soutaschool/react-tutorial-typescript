@@ -27,11 +27,38 @@ class Square extends React.Component<SquarePropsInterface, SquareStateInterface>
 	}
 }
 
-class Board extends React.Component {
-	renderSquare(i: number) {
-		return <Square value={{i} />;
+interface BoardPropsInterface {
+	squares: Array<string>
+}
+
+interface BoardStateInterface {
+	squares: Array<string>
+}
+
+class Board extends React.Component<BoardPropsInterface, BoardStateInterface> {
+	constructor(props: BoardPropsInterface) {
+		super(props);
+		this.state = {
+			squares: Array(9).fill("")
+		};
 	}
 	
+	handleClick(i: number) {
+		console.log(i);
+		const squares: Array<string> = this.state.squares.slice();
+		squares[i] = 'X';
+		this.setState({
+			squares: squares
+		});
+		console.log(this.state)
+	}
+	
+	renderSquare(i: number) {
+		return <Square
+			value={this.state.squares[i]}
+			onClick={() => this.handleClick(i)}
+		/>;
+	}
 	render() {
 		const status = 'Next player: X';
 		
